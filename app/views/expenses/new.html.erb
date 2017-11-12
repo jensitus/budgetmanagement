@@ -1,0 +1,18 @@
+<br>
+<div class="row">
+  <h5>New Expense for <%= @household.name %></h5>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= render 'form', expense: @expense, create_or_update: 'create' %>
+  </div>
+</div>
+
+<br>
+<div class="row">
+  <%= link_to 'Back', household_expenses_path %>
+</div>
+

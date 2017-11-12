@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h4><%= @household.name %></h4>
+<br>
+<div class="container">
+
+  <div class="row">
+    <table class="table">
+      <thead>
+      <th>Amount</th>
+      <th>Description</th>
+      <th>Spent at</th>
+      <th></th>
+      </thead>
+
+      <% @expenses.each do |expense| %>
+          <tr>
+            <td class="col-xs-2"><%= expense.amount %></td>
+            <td class="col-xs-2"><%= expense.description %></td>
+            <td class="col-xs-3"><%= expense.spent_at %></td>
+
+            <td class="col-xs-2"><%= link_to 'Edit', edit_household_expense_path(@household, expense) %></td>
+          </tr>
+      <% end %>
+    </table>
+  </div>
+
+  <div class="row">
+    <!--<div class="col-md-2"><%#= link_to 'Show', expense %></div>
+
+    <div class="col-md-2"><%#= link_to 'Destroy', expense, method: :delete, data: {confirm: 'Are you sure?'} %></div>
+-->
+
+  </div>
+</div>
+
+<br>
+
+<%= link_to 'New Expense', new_household_expense_path %>

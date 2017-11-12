@@ -1,0 +1,11 @@
+<%= form_with(model: @household, local: true) do |form| %>
+
+    <div class="form-group">
+      <%= form.label :name %>
+      <%= form.text_field :name, id: :household_name, class: 'form-control' %>
+    </div>
+    <div class="actions">
+      <%= form.submit :hopp, class: 'btn btn-outline-primary' %>
+    </div>
+
+<% end %>

@@ -1,0 +1,6 @@
+<h4>Editing Expense</h4>
+
+<%= render 'form', expense: @expense, household: @household, create_or_update: 'update' %>
+<%= @household.inspect %>
+<%= link_to 'Show', household_expenses_path(household_id: @household.id) %>
+<%= link_to 'Back', household_expenses_path %>

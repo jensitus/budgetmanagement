@@ -1,0 +1,24 @@
+<div class="container">
+  <br>
+  <p id="notice" style="margin-bottom: 30px;"><%= notice %></p>
+  <div class="row">
+    <div class="col-md-6">
+      <b><%= link_to @household.name, household_expenses_path(@household) %></b>
+    </div>
+
+
+    <div class="col-md-4">
+
+      <%= render 'add_user' %>
+
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-md-4">
+      <span id="new_user"></span>
+    </div>
+
+  </div>
+</div>
+
