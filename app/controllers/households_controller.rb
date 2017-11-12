@@ -34,10 +34,10 @@ class HouseholdsController < ApplicationController
   end
 
   def update
-    u = User.find(household_params['add_user'])
+    u = User.find(update_params['add_user'])
     respond_to do |format|
 
-      if @household.save(household_params)
+      if @household.save(update_params)
         begin
           @household.users << u
           format.html { redirect_to household_path(@household), notice: 'yepp, you added the selected user successfully to your famous household'}
@@ -57,7 +57,10 @@ class HouseholdsController < ApplicationController
   private
 
   def household_params
-    #params.require(:household).permit(:name, user_attributes: [:id, :username])
+    params.require(:household).permit(:name, user_attributes: [:id, :username])
+  end
+
+  def update_params
     params.permit(:add_user)
   end
 
