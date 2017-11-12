@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Budgetmanagement</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title>Budgetmanagement</title>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body class="bg-light">
+<body class="bg-light">
 <%= render 'shared/nav' %>
-  <div class="container">
-    <%= yield %>
-  </div>
 
-  </body>
+<div class="container">
+  <br>
+  <% if flash[:alert] %>
+      <div class="alert alert-danger"><%= flash[:alert] %></div>
+  <% end %>
+  <%= yield %>
+</div>
+
+</body>
 </html>

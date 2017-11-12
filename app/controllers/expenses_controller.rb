@@ -1,5 +1,4 @@
 class ExpensesController < ApplicationController
-  # before_action :set_expense, only: [:show, :edit, :update, :destroy]
   before_action :set_household, only: [:index, :new, :create, :edit, :update]
   before_action :authenticate_user!
 
@@ -22,6 +21,10 @@ class ExpensesController < ApplicationController
   # GET /expenses/1/edit
   def edit
     @expense = @household.expenses.find(params[:id])
+    if current_user != @expense.user
+      flash[:alert] = 'you have no permission to do this'
+      redirect_to root_url
+    end
   end
 
   # POST /expenses
@@ -68,11 +71,6 @@ class ExpensesController < ApplicationController
   end
 
   private
-
-  # Use callbacks to share common setup or constraints between actions.
-  # def set_expense
-  #   @expense = Expense.find(params[:id])
-  # end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def expense_params
