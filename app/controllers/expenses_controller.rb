@@ -36,15 +36,17 @@ class ExpensesController < ApplicationController
     puts @expense
     # respond_to do |format|
       if @expense.save
-        ActionCable.server.broadcast 'expenses',
+        flash[:notice] = 'Expense was successfully created.'
+        ActionCable.server.broadcast 'expenses_channel',
                                           expense: @expense.amount,
                                           user: @expense.user.username
-        head :ok
+        # head :ok
+        redirect_to household_expenses_path(@household)
         # format.html {redirect_to household_expenses_path(@household), notice: 'Expense was successfully created.'}
         # format.json {render :show, status: :created, location: @expense}
       else
-        #format.html {render :new}
-        #format.json {render json: @expense.errors, status: :unprocessable_entity}
+        # format.html {render :new}
+        # format.json {render json: @expense.errors, status: :unprocessable_entity}
       end
     #end
   end
