@@ -18,7 +18,11 @@ App.households = App.cable.subscriptions.create "HouseholdsChannel",
       @perform 'unfollow'
 
   renderExpense: (data) ->
-    '<div class=\'alert alert-warning\'> <span>' + data.user + ' added an expense </span><br>' + data.amount + ' <b>::</b> ' + data.description + '</div>'
+    '<div class=\'alert alert-warning\'> <span>' + data.user + ' added an expense </span><br>' + @renderAmount(data.amount) + ' € <b>::</b> ' + data.description + '</div>'
+
+  renderAmount: (amount) ->
+    console.log "Amount:", amount
+    parseFloat(amount).toFixed(2)
 
   installPageChangeCallback: ->
     unless @installedPageChangeCallback
