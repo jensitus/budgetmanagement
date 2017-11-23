@@ -5,7 +5,7 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.json
   def index
-    @expenses = @household.expenses.order(:spent_at)
+    @expenses = @household.expenses.order(spent_at: :desc)
   end
 
   # GET /expenses/1
@@ -22,7 +22,7 @@ class ExpensesController < ApplicationController
   def edit
     @expense = @household.expenses.find(params[:id])
     if current_user != @expense.user
-      flash[:alert] = 'you have no permission to do this'
+      flash[:danger] = 'you have no permission to do this'
       redirect_to root_url
     end
   end
@@ -35,19 +35,22 @@ class ExpensesController < ApplicationController
     @expense.user_id = current_user.id
     puts @expense
     # respond_to do |format|
-      if @expense.save
-        flash[:notice] = 'Expense was successfully created.'
-        ActionCable.server.broadcast 'expenses_channel',
-                                          expense: @expense.amount,
-                                          user: @expense.user.username
-        # head :ok
-        redirect_to household_expenses_path(@household)
-        # format.html {redirect_to household_expenses_path(@household), notice: 'Expense was successfully created.'}
-        # format.json {render :show, status: :created, location: @expense}
-      else
-        # format.html {render :new}
-        # format.json {render json: @expense.errors, status: :unprocessable_entity}
-      end
+    if @expense.save
+      flash[:success] = 'Expense was successfully created.'
+      #HouseholdsChannel.broadcast_to(@household, @expense)
+      ActionCable.server.broadcast "household_#{@household.id}_expenses",
+                                   household: @household.id,
+                                   amount: @expense.amount,
+                                   description: @expense.description,
+                                   user: @expense.user.username
+      # head :ok
+      redirect_to household_expenses_path(@household)
+      # format.html {redirect_to household_expenses_path(@household), notice: 'Expense was successfully created.'}
+      # format.json {render :show, status: :created, location: @expense}
+    else
+      # format.html {render :new}
+      # format.json {render json: @expense.errors, status: :unprocessable_entity}
+    end
     #end
   end
 
@@ -57,7 +60,7 @@ class ExpensesController < ApplicationController
     @expense = @household.expenses.find(params[:id])
     respond_to do |format|
       if @expense.update(expense_params)
-        flash[:notice] = 'Expense was successfully updated.'
+        flash[:alert] = 'Expense was successfully updated.'
         format.html {redirect_to household_expenses_path(@household)}
         format.json {render :show, status: :ok, location: @expense}
       else

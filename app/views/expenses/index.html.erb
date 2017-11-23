@@ -11,7 +11,7 @@
   </div>
 <br>
   <div class="row">
-    <div id="new_expense"></div>
+    <div id="new_expense" data-channel="new_expense" data-household-id="<%= @household.id %>"></div>
     <table class="table">
       <thead>
       <th>Amount</th>
@@ -24,7 +24,7 @@
           <tr>
             <td class="col-xs-2"><%= expense.amount %></td>
             <td class="col-xs-2"><%= expense.description %></td>
-            <td class="col-xs-3"><%= expense.spent_at %></td>
+            <td class="col-xs-2"><%= expense.spent_at.strftime('%d.%m.%y') %></td>
 
             <td class="col-xs-2"><%= link_to 'Edit', edit_household_expense_path(@household, expense) %></td>
           </tr>

@@ -23,9 +23,11 @@ class HouseholdsController < ApplicationController
     @household.users << current_user
     respond_to do |format|
       if @household.save
-        format.html {redirect_to household_expenses_path(@household), notice: 'Household was successfully created.'}
+        flash[:notice] = 'Household was successfully created.'
+        format.html {redirect_to household_expenses_path(@household) }
         format.json {render :show, status: :created, location: @household}
       else
+        flash[:warning] = 'Sorry, but something went wrong'
         format.html {render :new}
         format.json {render json: @household.errors, status: :unprocessable_entity}
       end

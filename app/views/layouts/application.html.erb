@@ -16,10 +16,10 @@
 
 <div class="container">
   <br>
-  <% if flash[:alert] %>
-      <div class="alert alert-danger"><%= flash[:alert] %></div>
-  <% elsif flash[:notice] %>
-      <div class="alert alert-success"><%= flash[:notice] %></div>
+  <% flash.each do |key, value| %>
+      <div class="<%= flash_class(key) %>">
+        <%= value %>
+      </div>
   <% end %>
   <%= yield %>
 </div>
