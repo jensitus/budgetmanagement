@@ -1,0 +1,20 @@
+<table class="table table-hover table-sm">
+  <thead>
+  <th class="text-right">Amount</th>
+  <th></th>
+  <th>Description</th>
+  <th>Spent at</th>
+  <th></th>
+  </thead>
+
+  <% @expenses.each do |expense| %>
+      <tr>
+        <td class="col-sm-1 text-sm-right" id="amount-<%= expense.id %>"><%= fix_it(expense.amount) %></td>
+        <td class="col-sm-1"></td>
+        <td class="col-sm-2 text-sm-left"><%= expense.description %></td>
+        <td class="col-sm-1 text-sm-center"><%= expense.spent_at.strftime('%d.%m.%y') %></td>
+
+        <td class="col-sm-1 text-sm-right"><%= link_to 'Edit', edit_household_expense_path(@household, expense) %></td>
+      </tr>
+  <% end %>
+</table>

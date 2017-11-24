@@ -30,14 +30,10 @@ class ExpensesController < ApplicationController
   # POST /expenses
   # POST /expenses.json
   def create
-
     @expense = @household.expenses.new(expense_params)
     @expense.user_id = current_user.id
-    puts @expense
-    # respond_to do |format|
     if @expense.save
       flash[:success] = 'Expense was successfully created.'
-      #HouseholdsChannel.broadcast_to(@household, @expense)
       ActionCable.server.broadcast "household_#{@household.id}_expenses",
                                    household: @household.id,
                                    amount: @expense.amount,
@@ -45,13 +41,11 @@ class ExpensesController < ApplicationController
                                    user: @expense.user.username
       # head :ok
       redirect_to household_expenses_path(@household)
-      # format.html {redirect_to household_expenses_path(@household), notice: 'Expense was successfully created.'}
-      # format.json {render :show, status: :created, location: @expense}
     else
-      # format.html {render :new}
-      # format.json {render json: @expense.errors, status: :unprocessable_entity}
+      flash[:alert] = "That wasn't what you expected, right?"
+      redirect_to root_url
     end
-    #end
+
   end
 
   # PATCH/PUT /expenses/1
