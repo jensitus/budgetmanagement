@@ -1,0 +1,8 @@
+<%= form_tag expenses_monthlystatementoutput_path, remote: true do %>
+    <div class="form-group">
+      <%= label_tag :month, 'Month' %>
+      <%= text_field_tag :month, '11', class: 'form-control' %>
+    </div>
+    <%= hidden_field_tag 'household_id', @household.id %>
+    <%= submit_tag 'yepp', class: 'btn btn-sm btn-outline-alert' %>
+<% end %>

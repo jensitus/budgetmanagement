@@ -1,5 +1,5 @@
 class ExpensesController < ApplicationController
-  before_action :set_household, only: [:index, :new, :create, :edit, :update]
+  before_action :set_household, only: [:index, :new, :create, :edit, :update, :monthlystatementoutput, :monthlyinput]
   before_action :authenticate_user!
 
   # GET /expenses
@@ -11,6 +11,22 @@ class ExpensesController < ApplicationController
   # GET /expenses/1
   # GET /expenses/1.json
   def show
+  end
+
+  def monthlystatementoutput
+
+    @monthly = Monthly.new(params[:month])
+    @household.expenses.monthly_statement(params[:month]).each do |e|
+      @monthly.bill += e.amount
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def monthlyinput
+
   end
 
   # GET /expenses/new

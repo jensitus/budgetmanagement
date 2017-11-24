@@ -6,4 +6,6 @@ class Household < ApplicationRecord
 
   accepts_nested_attributes_for :expenses
 
+
+
 end
