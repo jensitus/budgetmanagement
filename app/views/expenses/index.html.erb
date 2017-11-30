@@ -1,4 +1,4 @@
-<div class="container" onload="fix(120, 3);">
+<div class="mx-sm-2">
   <div class="row">
     <div class="col-md">
       <h4><%= @household.name %></h4>
@@ -15,7 +15,10 @@
       <%= render 'expenses/expenses_table' %>
     </div>
     <div class="col-md">
-      <%= render 'expenses/monthly', household_id: @household.id %>
+      <div>
+        <%= render 'expenses/monthly', household_id: @household.id %>
+      </div>
+
     </div>
   </div>
 
@@ -28,14 +31,4 @@
   </div>
 </div>
 
-<br>
 
-<script>
-    function fix(amount, id) {
-        console.log("SO EIN VERDAMMTER");
-        console.log("amount: " + amount + ", id: " + id);
-        //document.getElementById("amount-" + id).innerHTML = amount.toFixed(2);
-    }
-
-    window.onload = fix();
-</script>

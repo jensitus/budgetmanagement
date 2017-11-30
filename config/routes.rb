@@ -13,4 +13,13 @@ Rails.application.routes.draw do
   post 'expenses/monthlystatementoutput'
   get 'expenses/monthlyinput'
 
+  get 'categories/create'
+  post 'categories/create'
+  get 'categories/update'
+  post 'categories/add_to_household'
+  get 'categories/destroy'
+
+  post 'categories/add_to_expense'
+  delete 'categories/delete_from_expense'
+
 end

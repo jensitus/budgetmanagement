@@ -1,0 +1,10 @@
+<%= form_tag categories_create_path, remote: true do %>
+    <div class="form-group mr-sm-5">
+      <%= label_tag :name %>
+      <%= text_field_tag :name, 'Lebensmittel', class: 'form-control' %>
+    </div>
+    <%= hidden_field_tag :household_id, @household.id %>
+    <div class="actions">
+      <%= submit_tag :hopp, class: 'btn btn-sm btn-outline-success' %>
+    </div>
+<% end %>

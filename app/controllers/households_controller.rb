@@ -1,7 +1,7 @@
 class HouseholdsController < ApplicationController
-
   before_action :set_household, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :require_household_user, only: [:show]
 
   def index
     @households = current_user.households
@@ -9,6 +9,14 @@ class HouseholdsController < ApplicationController
 
   def show
     @users = User.all
+    @added_categories = @household.categories
+    @household_categories = @household.categories
+    @also_categories = []
+    Category.all.each do |category|
+      if !@household_categories.include? category
+        @also_categories << category
+      end
+    end
   end
 
   def new

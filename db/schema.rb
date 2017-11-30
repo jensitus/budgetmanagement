@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171112201410) do
+ActiveRecord::Schema.define(version: 20171126220222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
+  end
+
+  create_table "expense_categories", force: :cascade do |t|
+    t.integer "expense_id"
+    t.integer "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expense_id", "category_id"], name: "index_expense_categories_on_expense_id_and_category_id", unique: true
+  end
 
   create_table "expenses", force: :cascade do |t|
     t.decimal "amount"
@@ -23,6 +38,14 @@ ActiveRecord::Schema.define(version: 20171112201410) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "household_id"
+  end
+
+  create_table "household_categories", force: :cascade do |t|
+    t.integer "household_id"
+    t.integer "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["household_id", "category_id"], name: "index_household_categories_on_household_id_and_category_id", unique: true
   end
 
   create_table "households", force: :cascade do |t|
@@ -35,11 +58,6 @@ ActiveRecord::Schema.define(version: 20171112201410) do
     t.integer "household_id"
     t.integer "user_id"
     t.index ["household_id", "user_id"], name: "index_households_users_on_household_id_and_user_id", unique: true
-  end
-
-  create_table "join_households_users", force: :cascade do |t|
-    t.integer "household_id"
-    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|

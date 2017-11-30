@@ -1,0 +1,36 @@
+<div class="container">
+  <%= render 'categories/form' %>
+</div>
+<div class="row">
+  <div class="col-md">
+    <div>
+      <b>household categories:</b>
+    </div>
+    <% @added_categories.each do |cat| %>
+        <div>
+          <%= cat.name %>
+        </div>
+    <% end %>
+    <div id="new_category"></div>
+  </div>
+  <div class="col-md">
+    <div>
+      <b>also available:</b>
+    </div>
+    <% @also_categories.each do |cat| %>
+        <div>
+          <%= cat.name %>
+          <%= form_tag categories_add_to_household_path, remote: true do %>
+
+              <%= hidden_field_tag :household_id, @household.id %>
+              <%= hidden_field_tag :category_id, cat.id %>
+              <%= hidden_field_tag :name, cat.name %>
+              <%= submit_tag 'add', class: 'btn btn-sm btn-outline-secondary' %>
+          <% end %>
+        </div>
+    <% end %>
+  </div>
+</div>
+<div class="container" id="category">
+
+</div>

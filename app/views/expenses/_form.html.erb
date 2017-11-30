@@ -1,12 +1,12 @@
-<%= form_for(expense, url: { action: create_or_update }, local: true) do |form| %>
+<%= form_for(expense, url: {action: create_or_update}, local: true) do |form| %>
   <% if expense.errors.any? %>
     <div id="error_explanation">
       <div><%= pluralize(expense.errors.count, "error") %> prohibited this expense from being saved:</div>
 
       <ul>
-      <% expense.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% expense.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -28,7 +28,50 @@
     </small>
   </div>
 
+  <% if create_or_update == 'create' %>
+    <div class="form-group">
+      <%= select_tag 'category', options_from_collection_for_select(@household_categories, 'id', 'name'), class: 'form-control', include_blank: true %>
+    </div>
+
+  <% end %>
+
   <div>
     <%= form.submit :hopp, class: 'btn btn-outline-success' %>
   </div>
 <% end %>
+
+<div class="row mt-lg-3">
+
+  <% if create_or_update == 'update' %>
+    <div class="col-md" id="new_expense_category">
+      <% @expense.categories.each do |c| %>
+        <%= form_tag categories_delete_from_expense_path, method: :delete, remote: true do %>
+          <div id="cat-<%= c.id %>">
+            <%= c.name %>
+            <%= hidden_field_tag :household_id, @household.id %>
+            <%= hidden_field_tag :category_id, c.id %>
+            <%= hidden_field_tag :name, c.name %>
+            <%= hidden_field_tag :expense_id, @expense.id %>
+            <small><%= submit_tag 'remove', class: 'btn btn-sm btn-outline-danger' %></small>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div></div>
+    <div class="col-md">
+      <% @household.categories.each do |a| %>
+        <%= form_tag categories_add_to_expense_path, remote: true do %>
+
+          <%= a.name %>
+
+          <%= hidden_field_tag :household_id, @household.id %>
+          <%= hidden_field_tag :category_id, a.id %>
+          <%= hidden_field_tag :name, a.name %>
+          <%= hidden_field_tag :expense_id, @expense.id %>
+          <%= submit_tag 'add', class: 'btn btn-sm btn-outline-secondary' %>
+
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

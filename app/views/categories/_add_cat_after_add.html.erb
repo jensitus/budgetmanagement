@@ -1,0 +1,12 @@
+<% expense.categories.each do |c| %>
+  <%= form_tag categories_delete_from_expense_path, method: :delete, remote: true do %>
+    <div id="cat-<%= c.id %>">
+      <%= c.name %>
+      <%= hidden_field_tag :household_id, @household.id %>
+      <%= hidden_field_tag :category_id, c.id %>
+      <%= hidden_field_tag :name, c.name %>
+      <%= hidden_field_tag :expense_id, @expense.id %>
+      <small><%= submit_tag 'remove', class: 'btn btn-sm btn-outline-danger' %></small>
+    </div>
+  <% end %>
+<% end %>

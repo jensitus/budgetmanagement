@@ -1,6 +1,7 @@
 class ExpensesController < ApplicationController
   before_action :set_household, only: [:index, :new, :create, :edit, :update, :monthlystatementoutput, :monthlyinput]
   before_action :authenticate_user!
+  before_action :require_household_user, only: [:index]
 
   # GET /expenses
   # GET /expenses.json
@@ -15,11 +16,10 @@ class ExpensesController < ApplicationController
 
   def monthlystatementoutput
 
-    @monthly = Monthly.new(params[:month])
-    @household.expenses.monthly_statement(params[:month]).each do |e|
+    @monthly = Monthly.new(params[:month], params[:year])
+    @household.expenses.monthly_statement(params[:month], params[:year]).each do |e|
       @monthly.bill += e.amount
     end
-
     respond_to do |format|
       format.js
     end
@@ -32,6 +32,7 @@ class ExpensesController < ApplicationController
   # GET /expenses/new
   def new
     @expense = @household.expenses.new
+    @household_categories = @household.categories
   end
 
   # GET /expenses/1/edit
@@ -50,12 +51,17 @@ class ExpensesController < ApplicationController
     @expense.user_id = current_user.id
     if @expense.save
       flash[:success] = 'Expense was successfully created.'
+
+      c = Category.find cat_params[:category].to_i
+      @expense.categories << c
+
       ActionCable.server.broadcast "household_#{@household.id}_expenses",
                                    household: @household.id,
                                    amount: @expense.amount,
                                    description: @expense.description,
                                    user: @expense.user.username
       # head :ok
+
       redirect_to household_expenses_path(@household)
     else
       flash[:alert] = "That wasn't what you expected, right?"
@@ -70,6 +76,15 @@ class ExpensesController < ApplicationController
     @expense = @household.expenses.find(params[:id])
     respond_to do |format|
       if @expense.update(expense_params)
+
+        c = Category.find cat_params[:category].to_i
+
+        if @expense.categories << c
+          puts 'SUPER'
+        else
+          puts 'SCHEIßE'
+        end
+
         flash[:alert] = 'Expense was successfully updated.'
         format.html {redirect_to household_expenses_path(@household)}
         format.json {render :show, status: :ok, location: @expense}
@@ -95,6 +110,10 @@ class ExpensesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def expense_params
     params.require(:expense).permit(:amount, :description, :spent_at)
+  end
+
+  def cat_params
+    params.permit(:category)
   end
 
   def set_household

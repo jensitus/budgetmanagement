@@ -1,7 +1,7 @@
-<div class="card" style="margin-top: 20px;">
+<div class="card mb-sm-3 mt-sm-3">
   <div class="card-body">
     <div>
-      Monat: <%= month_name @monthly.month %>
+      <b><%= month_name @monthly.month %> <%= @monthly.year %></b>
     </div>
     <div>
       Summe: <%= fix_it(@monthly.bill) %>

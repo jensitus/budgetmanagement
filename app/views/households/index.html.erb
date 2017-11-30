@@ -1,9 +1,9 @@
 <div class="row">
 
-    <%= @households.each do |household| %>
+  <% @households.each do |household| %>
       <div class="col-md-7">
         <%= link_to household.name, household_expenses_path(household.id) %>
       </div>
-    <% end %>
+  <% end %>
 
 </div>

@@ -1,8 +1,11 @@
-<%= form_tag expenses_monthlystatementoutput_path, remote: true do %>
-    <div class="form-group">
-      <%= label_tag :month, 'Month' %>
-      <%= text_field_tag :month, '11', class: 'form-control' %>
-    </div>
-    <%= hidden_field_tag 'household_id', @household.id %>
-    <%= submit_tag 'yepp', class: 'btn btn-sm btn-outline-dark' %>
+<%= form_tag expenses_monthlystatementoutput_path, class: 'form-inline', remote: true do %>
+      <div class="form-group">
+        <%#= label_tag :month, 'Month' %>
+        <%= text_field_tag :month, '11', class: 'form-control' %>
+      </div>
+      <div class="form-group">
+        <%= text_field_tag :year, '2017', class: 'form-control mx-sm-3' %>
+      </div>
+      <%= hidden_field_tag 'household_id', @household.id %>
+      <%= submit_tag 'yepp', class: 'btn btn-sm btn-outline-dark' %>
 <% end %>
