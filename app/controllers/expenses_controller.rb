@@ -77,13 +77,13 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       if @expense.update(expense_params)
 
-        c = Category.find cat_params[:category].to_i
-
-        if @expense.categories << c
-          puts 'SUPER'
-        else
-          puts 'SCHEIßE'
-        end
+        # c = Category.find cat_params[:category].to_i
+        #
+        # if @expense.categories << c
+        #   puts 'SUPER'
+        # else
+        #   puts 'SCHEIßE'
+        # end
 
         flash[:alert] = 'Expense was successfully updated.'
         format.html {redirect_to household_expenses_path(@household)}
