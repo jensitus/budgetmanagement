@@ -19,13 +19,14 @@
     </div>
     <% @also_categories.each do |cat| %>
         <div>
-          <%= cat.name %>
-          <%= form_tag categories_add_to_household_path, remote: true do %>
+
+          <%= form_tag categories_add_to_household_path, remote: true, class: 'form-inline' do %>
 
               <%= hidden_field_tag :household_id, @household.id %>
               <%= hidden_field_tag :category_id, cat.id %>
               <%= hidden_field_tag :name, cat.name %>
-              <%= submit_tag 'add', class: 'btn btn-sm btn-outline-secondary' %>
+              <span><%= submit_tag 'add', class: 'btn btn-sm btn-outline-secondary', style: 'font-size: 10px;' %></span>
+              &nbsp;<%= cat.name %>
           <% end %>
         </div>
     <% end %>

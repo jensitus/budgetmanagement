@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171126220222) do
+ActiveRecord::Schema.define(version: 20171202105216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20171126220222) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.integer "household_id"
+    t.index ["spent_at"], name: "index_expenses_on_spent_at"
   end
 
   create_table "household_categories", force: :cascade do |t|

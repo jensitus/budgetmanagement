@@ -30,7 +30,7 @@
 
   <% if create_or_update == 'create' %>
     <div class="form-group">
-      <%= select_tag 'category', options_from_collection_for_select(@household_categories, 'id', 'name'), class: 'form-control', include_blank: true %>
+      <%= select_tag 'category', options_from_collection_for_select(@household_categories, 'id', 'name', '14'), class: 'form-control', include_blank: true %>
     </div>
 
   <% end %>

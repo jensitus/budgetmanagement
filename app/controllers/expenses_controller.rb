@@ -16,10 +16,28 @@ class ExpensesController < ApplicationController
 
   def monthlystatementoutput
 
-    @monthly = Monthly.new(params[:month], params[:year])
+    categories = []
+    @monthly = Monthly.new(params[:month], params[:year], categories)
     @household.expenses.monthly_statement(params[:month], params[:year]).each do |e|
       @monthly.bill += e.amount
+      e.categories.each do |category|
+        categories.push category
+        categories.uniq!
+      end
     end
+
+    catEx = {}
+    categories.each do |cat|
+      e = 0
+      cat.expenses.each do |ex|
+        if ex.household == @household
+          e += ex.amount
+        end
+      end
+      cH = {cat.name => e}
+      catEx.merge! cH
+    end
+    @catEx = catEx
     respond_to do |format|
       format.js
     end
@@ -52,7 +70,12 @@ class ExpensesController < ApplicationController
     if @expense.save
       flash[:success] = 'Expense was successfully created.'
 
-      c = Category.find cat_params[:category].to_i
+      if cat_params[:category] = ''
+        c = Category.find_by_name('miscellaneous')
+      else
+        c = Category.find cat_params[:category].to_i
+      end
+
       @expense.categories << c
 
       ActionCable.server.broadcast "household_#{@household.id}_expenses",
@@ -64,7 +87,7 @@ class ExpensesController < ApplicationController
 
       redirect_to household_expenses_path(@household)
     else
-      flash[:alert] = "That wasn't what you expected, right?"
+      flash[:alert] = "That wasn't what you'd expected, right?"
       redirect_to root_url
     end
 
