@@ -70,7 +70,11 @@ class ExpensesController < ApplicationController
     if @expense.save
       flash[:success] = 'Expense was successfully created.'
 
-      if cat_params[:category] = ''
+      puts 'cat_params:'
+      puts cat_params[:category]
+      puts cat_params[:category].class
+
+      if cat_params[:category] == ''
         c = Category.find_by_name('miscellaneous')
       else
         c = Category.find cat_params[:category].to_i
