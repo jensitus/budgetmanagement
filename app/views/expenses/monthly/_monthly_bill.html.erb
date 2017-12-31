@@ -7,15 +7,19 @@
   <div class="card-body">
     <table class="table-responsive table-bordered table-sm">
       <tr>
-        <th class="pr-md-3"><small>category</small></th>
-        <th class="pl-md-3"><small>sum</small></th>
+        <th class="pr-md-3">
+          <small>category</small>
+        </th>
+        <th class="pl-md-3">
+          <small>sum</small>
+        </th>
       </tr>
       <% @catEx.each do |k, v| %>
-      <tr>
-        <td class="pr-md-3"><%= k %></td>
+        <tr>
+          <td class="pr-md-3"><%= k %></td>
           <td class="text-right pl-md-3"><%= v %></td>
-      </tr>
-        <% end %>
+        </tr>
+      <% end %>
     </table>
 
     <div class="mt-md-3">
