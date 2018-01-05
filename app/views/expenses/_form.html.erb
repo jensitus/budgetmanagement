@@ -30,7 +30,7 @@
 
   <% if create_or_update == 'create' %>
     <div class="form-group">
-      <%= select_tag 'category', options_from_collection_for_select(@household_categories, 'id', 'name', '15'), class: 'form-control', include_blank: true %>
+      <%= select_tag 'category', options_from_collection_for_select(@household_categories, 'id', 'name', '16'), class: 'form-control', include_blank: true %>
     </div>
 
   <% end %>
@@ -47,12 +47,14 @@
       <% @expense.categories.each do |c| %>
         <%= form_tag categories_delete_from_expense_path, method: :delete, remote: true do %>
           <div id="cat-<%= c.id %>">
-            <%= c.name %>
             <%= hidden_field_tag :household_id, @household.id %>
             <%= hidden_field_tag :category_id, c.id %>
             <%= hidden_field_tag :name, c.name %>
             <%= hidden_field_tag :expense_id, @expense.id %>
-            <small><%= submit_tag 'remove', class: 'btn btn-sm btn-outline-danger' %></small>
+            <small>
+              <%= submit_tag 'remove', class: 'btn btn-sm btn-outline-danger', style: 'font-size: 10px' %>
+              <%= c.name %>
+            </small>
           </div>
         <% end %>
       <% end %>
@@ -61,15 +63,14 @@
     <div class="col-md">
       <% @household.categories.each do |a| %>
         <%= form_tag categories_add_to_expense_path, remote: true do %>
-
-          <%= a.name %>
-
           <%= hidden_field_tag :household_id, @household.id %>
           <%= hidden_field_tag :category_id, a.id %>
           <%= hidden_field_tag :name, a.name %>
           <%= hidden_field_tag :expense_id, @expense.id %>
-          <%= submit_tag 'add', class: 'btn btn-sm btn-outline-secondary' %>
-
+          <small>
+            <%= submit_tag 'add', class: 'btn btn-sm btn-outline-secondary', style: 'font-size: 10px' %>
+            <%= a.name %>
+          </small>
         <% end %>
       <% end %>
     </div>

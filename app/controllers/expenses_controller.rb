@@ -18,7 +18,8 @@ class ExpensesController < ApplicationController
 
     categories = []
     @monthly = Monthly.new(params[:month], params[:year], categories)
-    @household.expenses.monthly_statement(params[:month], params[:year]).each do |e|
+    monthly_expenses = @household.expenses.monthly_statement(params[:month], params[:year])
+    monthly_expenses.each do |e|
       @monthly.bill += e.amount
       e.categories.each do |category|
         categories.push category
@@ -29,15 +30,17 @@ class ExpensesController < ApplicationController
     catEx = {}
     categories.each do |cat|
       e = 0
-      cat.expenses.each do |ex|
-        if ex.household == @household
-          e += ex.amount
+      monthly_expenses.each do |me|
+        if me.categories.include? cat
+          puts cat.name + ' ' + me.amount.to_s
+          e += me.amount
         end
       end
       cH = {cat.name => e}
       catEx.merge! cH
     end
     @catEx = catEx
+    puts @catEx.inspect
     respond_to do |format|
       format.js
     end
