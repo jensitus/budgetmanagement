@@ -41,6 +41,8 @@ gem 'devise'
 
 gem 'jquery-rails'
 
+gem 'will_paginate'
+
 
 
 group :development, :test do

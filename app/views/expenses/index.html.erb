@@ -12,7 +12,12 @@
   <div class="row">
     <div class="col-md">
       <div id="new_expense" data-channel="new_expense" data-household-id="<%= @household.id %>"></div>
-      <%= render 'expenses/expenses_table' %>
+      <div>
+        <%= render 'expenses/monthly/monthly_table_form' %>
+      </div>
+      <div id="monthly_table">
+        <%= render 'expenses/monthly/expenses_table' %>
+      </div>
     </div>
     <div class="col-md">
       <div>

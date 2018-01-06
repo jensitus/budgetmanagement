@@ -1,12 +1,22 @@
 class ExpensesController < ApplicationController
-  before_action :set_household, only: [:index, :new, :create, :edit, :update, :monthlystatementoutput, :monthlyinput]
+  before_action :set_household, only: [:index, :new, :create, :edit, :update, :monthlystatementoutput, :monthlyinput, :monthly_table]
   before_action :authenticate_user!
   before_action :require_household_user, only: [:index]
 
   # GET /expenses
   # GET /expenses.json
   def index
-    @expenses = @household.expenses.order(spent_at: :desc)
+    d = Date.today
+    @expenses = @household.expenses.monthly_statement(d.month, d.year).order(spent_at: :desc)
+  end
+
+  def monthly_table
+    m = params[:month]
+    y = params[:year]
+    @expenses = @household.expenses.monthly_statement(m, y).order(spent_at: :desc)
+    respond_to do |format|
+      format.js
+    end
   end
 
   # GET /expenses/1
